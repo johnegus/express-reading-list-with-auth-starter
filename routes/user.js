@@ -1,12 +1,17 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-const { loginUser } = require('../auth');
+const { loginUser, logoutUser } = require('../auth');
 
 const db = require('../db/models');
 const { csrfProtection, asyncHandler } = require('./utils');
 
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+
+router.post('/user/logout', (req, res) => {
+    logoutUser(req, res);
+    res.redirect('/user/login');
+  });
 
 router.get('/user/register', csrfProtection, (req, res) => {
   const user = db.User.build();
